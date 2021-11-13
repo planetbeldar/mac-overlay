@@ -1,0 +1,135 @@
+{
+  "nodes": {
+    "discord-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/discord-mac",
+        "lastModified": 1637180875,
+        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fdiscord-mac"
+      },
+      "original": {
+        "dir": "pkgs/discord-mac",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fdiscord-mac"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1637014545,
+        "narHash": "sha256-26IZAc5yzlD9FlDT54io1oqG/bBoyka+FJk5guaX4x4=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "bba5dcc8e0b20ab664967ad83d24d64cb64ec4f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1637593665,
+        "narHash": "sha256-R7jKS7A+0tZS8qD5pBr1UFcMiTdsw5bfoxgXbYsoWhM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "98747f27ecfee70c8c97b195cbb94df80a074dda",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "discord-mac": "discord-mac",
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "sonos-mac": "sonos-mac",
+        "spotify-mac": "spotify-mac",
+        "xkbswitch-mac": "xkbswitch-mac"
+      }
+    },
+    "sonos-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/sonos-mac",
+        "lastModified": 1637180875,
+        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fsonos-mac"
+      },
+      "original": {
+        "dir": "pkgs/sonos-mac",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fsonos-mac"
+      }
+    },
+    "spotify-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/spotify-mac",
+        "lastModified": 1637180875,
+        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fspotify-mac"
+      },
+      "original": {
+        "dir": "pkgs/spotify-mac",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fspotify-mac"
+      }
+    },
+    "xkbswitch-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/xkbswitch-mac",
+        "lastModified": 1637180875,
+        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fxkbswitch-mac"
+      },
+      "original": {
+        "dir": "pkgs/xkbswitch-mac",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fxkbswitch-mac"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
