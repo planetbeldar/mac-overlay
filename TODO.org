@@ -1,0 +1,14 @@
+* Packages [4/6]
+  - [X] Discord
+  - [ ] Signal
+  - [X] Sonos
+  - [X] Spotify
+  - [X] Xkbswitch
+  - [ ] KMonad
+  - [ ] Karabiner DriverKit VirtualHIDDevice
+
+* Considerations
+- Flakes for each package (with overlay, defaultPackage and packages)
+- One flake to rule them all
+- Will the internal lib-overlay be 'implicitly' available through exposed overlays?
+  We dont want it to, test!
