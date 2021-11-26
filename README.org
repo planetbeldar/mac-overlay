@@ -1,7 +1,7 @@
-* Packages [5/10]
+* Packages [6/10]
   - [X] Alacritty
   - [X] Discord
-  - [ ] Emacs 28
+  - [X] Emacs 28
   - [ ] KMonad
   - [ ] Karabiner DriverKit VirtualHIDDevice
   - [ ] Signal
