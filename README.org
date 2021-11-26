@@ -1,14 +1,15 @@
-* Packages [4/6]
+* Packages [5/10]
+  - [X] Alacritty
   - [X] Discord
+  - [ ] Emacs 28
+  - [ ] KMonad
+  - [ ] Karabiner DriverKit VirtualHIDDevice
   - [ ] Signal
   - [X] Sonos
   - [X] Spotify
   - [X] Xkbswitch
-  - [ ] KMonad
-  - [ ] Karabiner DriverKit VirtualHIDDevice
+  - [ ] Yabai (bin override for latest version - wont build)
 
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)
 - One flake to rule them all
-- Will the internal lib-overlay be 'implicitly' available through exposed overlays?
-  We dont want it to, test!

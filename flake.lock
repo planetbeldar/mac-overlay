@@ -1,5 +1,27 @@
 {
   "nodes": {
+    "alacritty-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/alacritty-mac",
+        "lastModified": 1637745312,
+        "narHash": "sha256-qP8y3aQkzcKGJuXELqdwWqzON1Y7yfdrhsqmV69GRAU=",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2falacritty-mac"
+      },
+      "original": {
+        "dir": "pkgs/alacritty-mac",
+        "type": "git",
+        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2falacritty-mac"
+      }
+    },
     "discord-mac": {
       "inputs": {
         "flake-utils": [
@@ -11,15 +33,18 @@
       },
       "locked": {
         "dir": "pkgs/discord-mac",
-        "lastModified": 1637180875,
-        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fdiscord-mac"
+        "lastModified": 1637745312,
+        "narHash": "sha256-mqU84kOo/KXgl8bLTUkNCL/MWG7tyRsfUUS197qyWpc=",
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "rev": "802ef1971386da63d6e61644d4308cea3b6bcc17",
+        "type": "github"
       },
       "original": {
         "dir": "pkgs/discord-mac",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fdiscord-mac"
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "type": "github"
       }
     },
     "flake-utils": {
@@ -55,6 +80,7 @@
     },
     "root": {
       "inputs": {
+        "alacritty-mac": "alacritty-mac",
         "discord-mac": "discord-mac",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
@@ -74,15 +100,18 @@
       },
       "locked": {
         "dir": "pkgs/sonos-mac",
-        "lastModified": 1637180875,
-        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fsonos-mac"
+        "lastModified": 1637745312,
+        "narHash": "sha256-mqU84kOo/KXgl8bLTUkNCL/MWG7tyRsfUUS197qyWpc=",
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "rev": "802ef1971386da63d6e61644d4308cea3b6bcc17",
+        "type": "github"
       },
       "original": {
         "dir": "pkgs/sonos-mac",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fsonos-mac"
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "type": "github"
       }
     },
     "spotify-mac": {
@@ -96,15 +125,18 @@
       },
       "locked": {
         "dir": "pkgs/spotify-mac",
-        "lastModified": 1637180875,
-        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fspotify-mac"
+        "lastModified": 1637745312,
+        "narHash": "sha256-mqU84kOo/KXgl8bLTUkNCL/MWG7tyRsfUUS197qyWpc=",
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "rev": "802ef1971386da63d6e61644d4308cea3b6bcc17",
+        "type": "github"
       },
       "original": {
         "dir": "pkgs/spotify-mac",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fspotify-mac"
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "type": "github"
       }
     },
     "xkbswitch-mac": {
@@ -118,15 +150,18 @@
       },
       "locked": {
         "dir": "pkgs/xkbswitch-mac",
-        "lastModified": 1637180875,
-        "narHash": "sha256-iLOIrNPhFMBL9umNY64XVw05TJmuDfmJTvCh9paKSnQ=",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fxkbswitch-mac"
+        "lastModified": 1637745312,
+        "narHash": "sha256-mqU84kOo/KXgl8bLTUkNCL/MWG7tyRsfUUS197qyWpc=",
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "rev": "802ef1971386da63d6e61644d4308cea3b6bcc17",
+        "type": "github"
       },
       "original": {
         "dir": "pkgs/xkbswitch-mac",
-        "type": "git",
-        "url": "file:///Users/planetbeldar/Projects/nix/mac-overlay?dir=pkgs%2fxkbswitch-mac"
+        "owner": "planetbeldar",
+        "repo": "mac-overlay",
+        "type": "github"
       }
     }
   },

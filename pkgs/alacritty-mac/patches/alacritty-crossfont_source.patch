@@ -1,0 +1,25 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 38a44a21..1e54a69f 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -387,8 +387,7 @@ dependencies = [
+ [[package]]
+ name = "crossfont"
+ version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b6c0967e93a0440865bf1d867c3a50d6993f5054b2a10186fc2830397918241d"
++source = "git+https://github.com/planetbeldar/crossfont#c29b3d9f20d19e723dcc2180bb31bb050ef514a1"
+ dependencies = [
+  "cocoa 0.24.0",
+  "core-foundation 0.9.1",
+diff --git a/Cargo.toml b/Cargo.toml
+index 7a6dec80..e5e230b1 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -9,3 +9,6 @@ members = [
+ lto = true
+ debug = 1
+ incremental = false
++
++[patch.crates-io]
++crossfont = { git = 'https://github.com/planetbeldar/crossfont' }

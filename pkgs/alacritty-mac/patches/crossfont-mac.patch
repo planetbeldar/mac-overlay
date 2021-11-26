@@ -1,0 +1,37 @@
+From 3d0d7385d07277aa8c4b156555280523e90cba09 Mon Sep 17 00:00:00 2001
+From: Ben Jackson <puremourning@gmail.com>
+Date: Mon, 14 Jun 2021 17:21:59 +0100
+Subject: [PATCH] Actually disable font smoothing when thin_strokes is enabled
+
+MacOS Big Sur changed font smoothing in some strage way, apparently
+disabling it at the OS level. Or something. It's hard to get clear
+information on this, but by _enabling_ font smoothing we end up with fat
+over-bright/high contract characters on MacOS.
+
+So to actually get thin fonts, enable anti-aliasing but disable font
+smoothing. This works for me(TM), and makes alacritty look like iTerm
+and Terminal.app.
+---
+ src/darwin/mod.rs | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/darwin/mod.rs b/src/darwin/mod.rs
+index aded7a7..9a0f84f 100644
+--- a/src/darwin/mod.rs
++++ b/src/darwin/mod.rs
+@@ -445,10 +445,13 @@ impl Font {
+ 
+         if use_thin_strokes {
+             cg_context.set_font_smoothing_style(16);
++            cg_context.set_allows_font_smoothing(false);
++            cg_context.set_should_smooth_fonts(false);
++        } else {
++            cg_context.set_allows_font_smoothing(true);
++            cg_context.set_should_smooth_fonts(true);
+         }
+ 
+-        cg_context.set_allows_font_smoothing(true);
+-        cg_context.set_should_smooth_fonts(true);
+         cg_context.set_allows_font_subpixel_quantization(true);
+         cg_context.set_should_subpixel_quantize_fonts(true);
+         cg_context.set_allows_font_subpixel_positioning(true);

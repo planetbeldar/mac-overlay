@@ -7,6 +7,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
+    alacritty-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/alacritty-mac";
+    alacritty-mac.inputs.nixpkgs.follows = "nixpkgs";
+    alacritty-mac.inputs.flake-utils.follows = "flake-utils";
+
     discord-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/discord-mac";
     discord-mac.inputs.nixpkgs.follows = "nixpkgs";
     discord-mac.inputs.flake-utils.follows = "flake-utils";
@@ -19,25 +23,31 @@
     spotify-mac.inputs.nixpkgs.follows = "nixpkgs";
     spotify-mac.inputs.flake-utils.follows = "flake-utils";
 
-    xkbswitch-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/xkbswitch-mac";
-    xkbswitch-mac.inputs.nixpkgs.follows = "nixpkgs";
-    xkbswitch-mac.inputs.flake-utils.follows = "flake-utils";
+    xkbswitch.url = "github:planetbeldar/mac-overlay?dir=pkgs/xkbswitch-mac";
+    xkbswitch.inputs.nixpkgs.follows = "nixpkgs";
+    xkbswitch.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = inputs @ { self, nixpkgs, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     let
       inherit (builtins) foldl' mapAttrs intersectAttrs;
 
-      packageNames = [ "discord-mac" "sonos-mac" "spotify-mac" "xkbswitch-mac" ];
-      packageDirs = foldl' (res: x: res // { ${x} = "directory"; }) {} packageNames;
+      packageNames = [
+        "alacritty-mac"
+        "discord-mac"
+        "sonos-mac"
+        "spotify-mac"
+        "xkbswitch-mac"
+      ];
+      packageDirs = foldl' (res: x: res // { ${x} = "directory"; }) { } packageNames;
       packageInputs = intersectAttrs packageDirs inputs;
 
-      overlays = mapAttrs (n: v: v.overlay) packageInputs;
       packages = system: mapAttrs (n: v: v.defaultPackage.${system}) packageInputs;
-    in {
+      overlays = mapAttrs (n: v: v.overlay) packageInputs;
       overlay = final: prev: packages prev.system;
-      inherit overlays;
-    } // flake-utils.lib.eachSystem [ "x86_64-darwin" "aarch64-darwin" ] (system: {
-      packages = packages system;
-    });
+    in {
+      # overlay = final: prev: packages prev.system;
+      inherit overlays overlay;
+    } // flake-utils.lib.eachSystem [ "x86_64-darwin" "aarch64-darwin" ]
+    (system: { packages = packages system; });
 }
