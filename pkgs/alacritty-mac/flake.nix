@@ -10,7 +10,7 @@
   outputs = { self, nixpkgs, flake-utils }:
     let
       mkDerivation = system:
-        let pkgs = import nixpkgs {inherit system;};
+        let pkgs = import nixpkgs { inherit system; };
         in pkgs.callPackage ./default.nix { };
     in {
       overlay = final: prev:
