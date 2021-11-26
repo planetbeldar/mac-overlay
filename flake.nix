@@ -27,9 +27,13 @@
     spotify-mac.inputs.nixpkgs.follows = "nixpkgs";
     spotify-mac.inputs.flake-utils.follows = "flake-utils";
 
-    xkbswitch.url = "github:planetbeldar/mac-overlay?dir=pkgs/xkbswitch-mac";
+    xkbswitch.url = "github:planetbeldar/mac-overlay?dir=pkgs/xkbswitch";
     xkbswitch.inputs.nixpkgs.follows = "nixpkgs";
     xkbswitch.inputs.flake-utils.follows = "flake-utils";
+
+    yabai.url = "github:planetbeldar/mac-overlay?dir=pkgs/yabai";
+    yabai.inputs.nixpkgs.follows = "nixpkgs";
+    yabai.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
@@ -42,7 +46,8 @@
         "emacs-mac"
         "sonos-mac"
         "spotify-mac"
-        "xkbswitch-mac"
+        "xkbswitch"
+        "yabai"
       ];
       packageDirs = foldl' (res: x: res // { ${x} = "directory"; }) { } packageNames;
       packageInputs = intersectAttrs packageDirs inputs;
@@ -51,7 +56,6 @@
       overlays = mapAttrs (n: v: v.overlay) packageInputs;
       overlay = final: prev: packages prev.system;
     in {
-      # overlay = final: prev: packages prev.system;
       inherit overlays overlay;
     } // flake-utils.lib.eachSystem [ "x86_64-darwin" "aarch64-darwin" ]
     (system: { packages = packages system; });
