@@ -1,10 +1,10 @@
-* Packages [7/10]
+* Packages [8/10]
   - [X] Alacritty
   - [X] Discord
   - [X] Emacs 28
   - [ ] KMonad
   - [ ] Karabiner DriverKit VirtualHIDDevice
-  - [ ] Signal
+  - [X] Signal
   - [X] Sonos
   - [X] Spotify
   - [X] Xkbswitch
@@ -13,3 +13,4 @@
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)
 - One flake to rule them all
+- Update procedure/script for each package

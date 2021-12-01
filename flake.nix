@@ -19,6 +19,10 @@
     emacs-mac.inputs.nixpkgs.follows = "nixpkgs";
     emacs-mac.inputs.flake-utils.follows = "flake-utils";
 
+    signal-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/signal-mac";
+    signal-mac.inputs.nixpkgs.follows = "nixpkgs";
+    signal-mac.inputs.flake-utils.follows = "flake-utils";
+
     sonos-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/sonos-mac";
     sonos-mac.inputs.nixpkgs.follows = "nixpkgs";
     sonos-mac.inputs.flake-utils.follows = "flake-utils";
@@ -44,6 +48,7 @@
         "alacritty-mac"
         "discord-mac"
         "emacs-mac"
+        "signal-mac"
         "sonos-mac"
         "spotify-mac"
         "xkbswitch"
