@@ -1,11 +1,11 @@
 { lib, yabai }:
 let
-  version = "3.3.10";
+  version = "4.0.0";
 in yabai.overrideAttrs (drv: {
   inherit version;
 
   src = builtins.fetchTarball {
     url = "https://github.com/koekeishiya/yabai/releases/download/v${version}/yabai-v${version}.tar.gz";
-    sha256 = "1z95njalhvyfs2xx6d91p9b013pc4ad846drhw0k5gipvl03pp92";
+    sha256 = "1iwzan3mgayfkx7qbbij53hkxvr419b6kmypp7zmvph270yzy4r9";
   };
 })

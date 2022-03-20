@@ -265,11 +265,11 @@
       },
       "locked": {
         "dir": "pkgs/yabai",
-        "lastModified": 1646645002,
-        "narHash": "sha256-FJkBZXhALQd2XJxG5ZtumagkBR/QqwTAACfOjZkN0eY=",
+        "lastModified": 1647768633,
+        "narHash": "sha256-12IfkT9N/nqNsWaSm/EHJ4KZiDeMYPv0caKhiNFJp5c=",
         "owner": "planetbeldar",
         "repo": "mac-overlay",
-        "rev": "aad78c507415ace5f39775618895662659abc538",
+        "rev": "ea1d3faa93ea9a0e3a1167a37e5644e8010727b6",
         "type": "github"
       },
       "original": {
