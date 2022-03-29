@@ -1,4 +1,4 @@
-* Packages [9/13]
+* Packages [10/14]
   - [X] Alacritty
   - [X] Discord
   - [X] Emacs 28
@@ -12,6 +12,7 @@
   - [ ] Chrome
   - [ ] MS Office
   - [ ] KiCad
+  - [X] MacFUSE
 
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)

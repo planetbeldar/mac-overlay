@@ -19,9 +19,13 @@
     emacs-mac.inputs.nixpkgs.follows = "nixpkgs";
     emacs-mac.inputs.flake-utils.follows = "flake-utils";
 
-    kmonad-mac.url = "./pkgs/kmonad-mac";
+    kmonad-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/kmonad-mac";
     kmonad-mac.inputs.nixpkgs.follows = "nixpkgs";
     kmonad-mac.inputs.flake-utils.follows = "flake-utils";
+
+    macfuse.url = "github:planetbeldar/mac-overlay?dir=pkgs/macfuse";
+    macfuse.inputs.nixpkgs.follows = "nixpkgs";
+    macfuse.inputs.flake-utils.follows = "flake-utils";
 
     signal-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/signal-mac";
     signal-mac.inputs.nixpkgs.follows = "nixpkgs";
@@ -53,6 +57,7 @@
         "discord-mac"
         "emacs-mac"
         "kmonad-mac"
+        "macfuse"
         "signal-mac"
         "sonos-mac"
         "spotify-mac"

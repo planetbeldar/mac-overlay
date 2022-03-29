@@ -137,11 +137,31 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-CVlrHuxoTEwuSotUMiiFosthKnNTyC4BLISQzFKgc5E=",
-        "path": "/nix/store/zdqw6bkn380m89wf30cal0gapjnfgcys-source/pkgs/kmonad-mac",
+        "path": "/nix/store/s5sx38cdzy4l7w1nnf8n3h7kpb8j5hxs-source/pkgs/kmonad-mac",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/zdqw6bkn380m89wf30cal0gapjnfgcys-source/pkgs/kmonad-mac",
+        "path": "/nix/store/s5sx38cdzy4l7w1nnf8n3h7kpb8j5hxs-source/pkgs/kmonad-mac",
+        "type": "path"
+      }
+    },
+    "macfuse": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-9z7aqdJX9i566GnZCDcA8B1eEmER3jOZ6AEAnjWL2qs=",
+        "path": "/nix/store/s5sx38cdzy4l7w1nnf8n3h7kpb8j5hxs-source/pkgs/macfuse",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/s5sx38cdzy4l7w1nnf8n3h7kpb8j5hxs-source/pkgs/macfuse",
         "type": "path"
       }
     },
@@ -167,6 +187,7 @@
         "emacs-mac": "emacs-mac",
         "flake-utils": "flake-utils",
         "kmonad-mac": "kmonad-mac",
+        "macfuse": "macfuse",
         "nixpkgs": "nixpkgs",
         "signal-mac": "signal-mac",
         "sonos-mac": "sonos-mac",
