@@ -125,6 +125,26 @@
         "type": "github"
       }
     },
+    "kmonad-mac": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-CVlrHuxoTEwuSotUMiiFosthKnNTyC4BLISQzFKgc5E=",
+        "path": "/nix/store/zdqw6bkn380m89wf30cal0gapjnfgcys-source/pkgs/kmonad-mac",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/zdqw6bkn380m89wf30cal0gapjnfgcys-source/pkgs/kmonad-mac",
+        "type": "path"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1646470760,
@@ -146,6 +166,7 @@
         "discord-mac": "discord-mac",
         "emacs-mac": "emacs-mac",
         "flake-utils": "flake-utils",
+        "kmonad-mac": "kmonad-mac",
         "nixpkgs": "nixpkgs",
         "signal-mac": "signal-mac",
         "sonos-mac": "sonos-mac",

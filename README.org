@@ -1,16 +1,24 @@
-* Packages [8/10]
+* Packages [9/13]
   - [X] Alacritty
   - [X] Discord
   - [X] Emacs 28
-  - [ ] KMonad
-  - [ ] Karabiner DriverKit VirtualHIDDevice
+  - [X] KMonad
   - [X] Signal
   - [X] Sonos
   - [X] Spotify
   - [X] Xkbswitch
   - [X] Yabai (bin override for latest version - wont build)
+  - [ ] Slack
+  - [ ] Chrome
+  - [ ] MS Office
+  - [ ] KiCad
 
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)
 - One flake to rule them all
 - Update procedure/script for each package
+
+* Test local packages via nixpkgs
+- Look for version (git) hash (root or user?)
+  nix-info -m
+- git checkout <hash>
