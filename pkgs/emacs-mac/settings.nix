@@ -2,5 +2,5 @@
 
 {
   emacsBranch = "emacs-28";
-  emacsVersion = "28.0.60";
+  emacsVersion = "28.0.92";
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p curl nix-prefetch jq
+#! nix-shell -i bash -p curl
 
 branch="emacs-28"
 readme=$(curl --silent https://raw.githubusercontent.com/emacs-mirror/emacs/$branch/README)
