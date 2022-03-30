@@ -1,4 +1,4 @@
-* Packages [10/14]
+* Packages [11/15]
   - [X] Alacritty
   - [X] Discord
   - [X] Emacs 28
@@ -13,6 +13,7 @@
   - [ ] MS Office
   - [ ] KiCad
   - [X] MacFUSE
+  - [X] pgAdmin4
 
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)
@@ -23,3 +24,12 @@
 - Look for version (git) hash (root or user?)
   nix-info -m
 - git checkout <hash>
+
+* Dynamically linked binaries
+- otool -L <executable>
+- otool -l <executable>
+- install_name_tool (darwin.cctools)
+- fixDarwinDylibNames (as native build input in nixpkgs) (https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/fix-darwin-dylib-names.sh)
+* On Linux
+- patchelf application
+- autopatchelf (as native build input in nixpkgs)

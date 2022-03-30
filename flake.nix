@@ -27,6 +27,10 @@
     macfuse.inputs.nixpkgs.follows = "nixpkgs";
     macfuse.inputs.flake-utils.follows = "flake-utils";
 
+    pgadmin4-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/pgadmin4-mac";
+    pgadmin4-mac.inputs.nixpkgs.follows = "nixpkgs";
+    pgadmin4-mac.inputs.flake-utils.follows = "flake-utils";
+
     signal-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/signal-mac";
     signal-mac.inputs.nixpkgs.follows = "nixpkgs";
     signal-mac.inputs.flake-utils.follows = "flake-utils";
@@ -58,6 +62,7 @@
         "emacs-mac"
         "kmonad-mac"
         "macfuse"
+        "pgadmin4-mac"
         "signal-mac"
         "sonos-mac"
         "spotify-mac"
