@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, undmg, cpio, xar, DiskArbitration }:
+{ lib, stdenv, fetchurl, undmg, cpio, xar, fixDarwinDylibNames, DiskArbitration }:
 let
   pname = "macfuse";
   version = "4.2.4";
@@ -10,7 +10,7 @@ in stdenv.mkDerivation {
     sha256 = "82a2c30b3a7bf56aa2755c0c192fb50d9eecc3fe42505ab4e8679b50306188bd";
   };
 
-  nativeBuildInputs = [ undmg cpio xar ];
+  nativeBuildInputs = [ undmg cpio xar fixDarwinDylibNames ];
   propagatedBuildInputs = [ DiskArbitration ];
 
   postUnpack = ''
@@ -31,6 +31,10 @@ in stdenv.mkDerivation {
     cp usr/local/lib/*.dylib $out/lib
     cp usr/local/lib/pkgconfig/*.pc $out/lib/pkgconfig
     cp -R usr/local/include/* $out/include
+  '';
+
+  postInstall = ''
+    fixDarwinDylibNamesIn $out/lib
   '';
 
   meta = {
