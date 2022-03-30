@@ -12,7 +12,9 @@
       overlays = [ (import ../../lib/overlay.nix) ];
       mkDerivation = system:
         let pkgs = import nixpkgs { inherit system overlays; };
-        in pkgs.callPackage ./default.nix { };
+        in pkgs.callPackage ./default.nix {
+          inherit (pkgs.darwin.apple_sdk.frameworks) DiskArbitration;
+        };
     in {
       overlay = final: prev:
         let macfuse = mkDerivation prev.system;

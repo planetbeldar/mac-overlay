@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, undmg, cpio, xar }:
+{ lib, stdenv, fetchurl, undmg, cpio, xar, DiskArbitration }:
 let
   pname = "macfuse";
   version = "4.2.4";
@@ -11,6 +11,7 @@ in stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [ undmg cpio xar ];
+  propagatedBuildInputs = [ DiskArbitration ];
 
   postUnpack = ''
     xar -xf 'Install macFUSE.pkg'
@@ -22,9 +23,7 @@ in stdenv.mkDerivation {
   dontConfigure = true;
 
   buildPhase = ''
-    pushd usr/local/lib
-    sed -i "s|^prefix=.*|prefix=$out|" pkgconfig/fuse.pc
-    popd
+    sed -i "s|^prefix=.*|prefix=$out|" usr/local/lib/pkgconfig/fuse.pc
   '';
 
   installPhase = ''
