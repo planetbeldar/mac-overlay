@@ -1,7 +1,7 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "sonos";
-  version = "13.3.2";
+  version = "14.4";
 
   fileVersion = builtins.replaceStrings [ "." ] [ "" ] version;
 in stdenv.mkDmgDerivation {
@@ -9,11 +9,13 @@ in stdenv.mkDmgDerivation {
 
   src = fetchurl {
     url = "https://update.sonos.com/software/mac/mdcr/SonosDesktopController${fileVersion}.dmg";
-    sha256 = "2a0f2aebe3e10c52c3905d0f6eb7a060903f486ec418bc2ba895d7feef7e46e0";
+    sha512 = "6Pdl8mlE9NBXTrpXkkur/geeRcdqyMCwDYbKC2ErOiAnLjveXGcp8/zND6JbaCN1WrnIXnvi4jQEOrhiI+zGzg==";
   };
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
-    homepage = "https://sonos.com";
+    homepage = "https://www.sonos.com";
     license = lib.licenses.unfree;
   };
 }
