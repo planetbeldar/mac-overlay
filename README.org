@@ -20,6 +20,10 @@
 - One flake to rule them all
 - Update procedure/script for each package
 
+* Updating packages
+- From root folder:
+  nix-shell maintainers/scripts/update.nix
+
 * Test local packages via nixpkgs
 - Look for version (git) hash (root or user?)
   nix-info -m
