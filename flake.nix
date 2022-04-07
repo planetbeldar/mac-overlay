@@ -3,80 +3,37 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
-
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
-
-    alacritty-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/alacritty-mac";
-    alacritty-mac.inputs.nixpkgs.follows = "nixpkgs";
-    alacritty-mac.inputs.flake-utils.follows = "flake-utils";
-
-    discord-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/discord-mac";
-    discord-mac.inputs.nixpkgs.follows = "nixpkgs";
-    discord-mac.inputs.flake-utils.follows = "flake-utils";
-
-    emacs-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/emacs-mac";
-    emacs-mac.inputs.nixpkgs.follows = "nixpkgs";
-    emacs-mac.inputs.flake-utils.follows = "flake-utils";
-
-    kmonad-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/kmonad-mac";
-    kmonad-mac.inputs.nixpkgs.follows = "nixpkgs";
-    kmonad-mac.inputs.flake-utils.follows = "flake-utils";
-
-    macfuse.url = "github:planetbeldar/mac-overlay?dir=pkgs/macfuse";
-    macfuse.inputs.nixpkgs.follows = "nixpkgs";
-    macfuse.inputs.flake-utils.follows = "flake-utils";
-
-    pgadmin4-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/pgadmin4-mac";
-    pgadmin4-mac.inputs.nixpkgs.follows = "nixpkgs";
-    pgadmin4-mac.inputs.flake-utils.follows = "flake-utils";
-
-    signal-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/signal-mac";
-    signal-mac.inputs.nixpkgs.follows = "nixpkgs";
-    signal-mac.inputs.flake-utils.follows = "flake-utils";
-
-    sonos-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/sonos-mac";
-    sonos-mac.inputs.nixpkgs.follows = "nixpkgs";
-    sonos-mac.inputs.flake-utils.follows = "flake-utils";
-
-    spotify-mac.url = "github:planetbeldar/mac-overlay?dir=pkgs/spotify-mac";
-    spotify-mac.inputs.nixpkgs.follows = "nixpkgs";
-    spotify-mac.inputs.flake-utils.follows = "flake-utils";
-
-    xkbswitch.url = "github:planetbeldar/mac-overlay?dir=pkgs/xkbswitch";
-    xkbswitch.inputs.nixpkgs.follows = "nixpkgs";
-    xkbswitch.inputs.flake-utils.follows = "flake-utils";
-
-    yabai.url = "github:planetbeldar/mac-overlay?dir=pkgs/yabai";
-    yabai.inputs.nixpkgs.follows = "nixpkgs";
-    yabai.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     let
-      inherit (builtins) foldl' mapAttrs intersectAttrs;
+      inherit (builtins) mapAttrs readDir;
+      inherit (flake-utils.lib) eachSystem system;
 
-      packageNames = [
-        "alacritty-mac"
-        "discord-mac"
-        "emacs-mac"
-        "kmonad-mac"
-        "macfuse"
-        "pgadmin4-mac"
-        "signal-mac"
-        "sonos-mac"
-        "spotify-mac"
-        "xkbswitch"
-        "yabai"
-      ];
-      packageDirs = foldl' (res: x: res // { ${x} = "directory"; }) { } packageNames;
-      packageInputs = intersectAttrs packageDirs inputs;
+      mkDerivation = system: packageName:
+        let
+          overlay = final: prev: {
+            stdenv = prev.stdenv // {
+              inherit (prev.callPackage ./lib/default.nix {}) mkDmgDerivation;
+            };
+          };
+          overlays = [ overlay ];
+          pkgs = import nixpkgs { inherit system overlays; };
+        in pkgs.callPackage (./pkgs + "/${packageName}") { };
+      mkOverlay = packageDirs:
+        (final: prev:
+          mapAttrs (packageName: _:
+            mkDerivation prev.system packageName) packageDirs);
 
-      packages = system: mapAttrs (n: v: v.defaultPackage.${system}) packageInputs;
-      overlays = mapAttrs (n: v: v.overlay) packageInputs;
-      overlay = final: prev: packages prev.system;
+      packageDirs = readDir ./pkgs;
+      overlay = mkOverlay packageDirs;
+      overlays = mapAttrs (packageName: _: (mkOverlay { ${packageName} = "directory"; })) packageDirs;
+      packages = system:
+        mapAttrs (packageName: _: mkDerivation system packageName) packageDirs;
     in {
-      inherit overlays overlay;
-    } // flake-utils.lib.eachSystem [ "x86_64-darwin" "aarch64-darwin" ]
+      inherit overlay overlays;
+    } // eachSystem [ system.x86_64-darwin system.aarch64-darwin ]
     (system: { packages = packages system; });
 }
