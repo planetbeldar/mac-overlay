@@ -4,10 +4,10 @@
 , glib
 , libvterm-neovim
 , ncurses
-, darwin
 , emacs
-, emacs-src
-, emacs-vterm-src }:
+, fetchFromGitHub
+, darwin
+}:
 let
   inherit (import ./settings.nix) emacsBranch emacsVersion;
 
@@ -15,7 +15,12 @@ let
     pname = "emacs-vterm";
     version = "master";
 
-    src = emacs-vterm-src;
+    src = fetchFromGitHub {
+      owner = "akermu";
+      repo = "emacs-libvterm";
+      rev = "a940dd2ee8a82684860e320c0f6d5e15d31d916f";
+      sha256 = "uSzIDmRNk7u5VtCXYu+JVN7Gzkc65axCiK0Jq0X6MWQ=";
+    };
 
     nativeBuildInputs = [ cmake libtool glib.dev ];
 
@@ -43,7 +48,12 @@ let
     withXwidgets = true;
   }).overrideAttrs (drv: {
     version = emacsVersion;
-    src = emacs-src;
+    src = fetchFromGitHub {
+      owner = "emacs-mirror";
+      repo = "emacs";
+      rev = "03e6a295d5c46151361845afbf5c8bcae915c89f";
+      sha256 = "UwESuk8hDULYnrpinouzWw1R3C+drpYLMp4rXcvd4LA=";
+    };
 
     buildInputs = drv.buildInputs ++ [ darwin.apple_sdk.frameworks.WebKit ];
 
