@@ -1,9 +1,10 @@
 { lib, stdenv, undmg }:
 let
   inherit (lib) filterAttrs mapAttrs mapAttrs' elem attrNames trace;
-  mkDmgDerivation = { pname, version, src, meta ? { } }:
+
+  mkDmgDerivation = { pname, version, src, meta ? { }, passthru ? { }}:
     stdenv.mkDerivation {
-      inherit version pname src;
+      inherit version pname src passthru;
 
       phases = [ "unpackPhase" "installPhase" ];
 
@@ -18,7 +19,7 @@ let
         cp -R *.app $out/Applications
       '';
 
-      meta = meta // { platforms = lib.platforms.darwin; };
+      meta = { platforms = lib.platforms.darwin; } // meta;
     };
 
   # mapFilterAttrs ::
