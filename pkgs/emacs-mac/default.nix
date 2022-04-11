@@ -45,6 +45,7 @@ in stdenv.mkDerivation {
   ];
 
   patches = [
+    ./patches/fix-window-role.patch
     ./patches/multi-tty-27.diff
   ];
 
@@ -138,19 +139,6 @@ in stdenv.mkDerivation {
       --eval "(add-to-list 'native-comp-eln-load-path \"$out/share/emacs/native-lisp\")" \
       -f batch-native-compile $out/share/emacs/site-lisp/site-start.el
   '';
-
-  # postInstall = ''
-  #   mkdir -p $out/share/emacs/site-lisp/
-  #   cp ${./site-start.el} $out/share/emacs/site-lisp/site-start.el
-
-  #   ln -snf $out/lib/emacs/*/native-lisp $out/Applications/Emacs.app/Contents/native-lisp
-  #   mkdir -p $out/share/emacs/native-lisp
-  #   $out/bin/emacs --batch \
-  #     --eval "(add-to-list 'native-comp-eln-load-path \"$out/share/emacs/native-lisp\")" \
-  #     -f batch-native-compile $out/share/emacs/site-lisp/site-start.el
-  # '';
-
-  doCheck = false;
 
   meta = {
     description = "The extensible, customizable text editor";
