@@ -1,74 +1,161 @@
 { stdenv
+, lib
 , cmake
 , libtool
 , glib
-, libvterm-neovim
 , ncurses
-, emacs
-, fetchFromGitHub
+, fetchurl
+, pkg-config
+, autoreconfHook
+, texinfo
+, makeWrapper
+, libxml2
+, gnutls
+, gettext
+, jansson
+, libgccjit
 , darwin
 }:
 let
-  inherit (import ./settings.nix) emacsBranch emacsVersion;
+  pname = "emacs";
+  version = "28.1";
+  macportVersion = "9.0";
+  name = "emacs-${version}-mac-${macportVersion}";
 
-  emacs-vterm = stdenv.mkDerivation {
-    pname = "emacs-vterm";
-    version = "master";
+  inherit (darwin) sigtool;
+  inherit (darwin.apple_sdk.frameworks) AppKit Carbon Cocoa IOKit OSAKit Quartz QuartzCore WebKit ImageCaptureCore GSS ImageIO;
+in stdenv.mkDerivation {
+  inherit pname version macportVersion name;
 
-    src = fetchFromGitHub {
-      owner = "akermu";
-      repo = "emacs-libvterm";
-      rev = "a940dd2ee8a82684860e320c0f6d5e15d31d916f";
-      sha256 = "uSzIDmRNk7u5VtCXYu+JVN7Gzkc65axCiK0Jq0X6MWQ=";
-    };
+  NATIVE_FULL_AOT = "1";
+  LIBRARY_PATH = "${lib.getLib stdenv.cc.libc}/lib";
 
-    nativeBuildInputs = [ cmake libtool glib.dev ];
-
-    buildInputs = [ glib.out libvterm-neovim ncurses ];
-
-    cmakeFlags = [ "-DUSE_SYSTEM_LIBVTERM=yes" ];
-
-    preConfigure = ''
-      echo "include_directories(\"${glib.out}/lib/glib-2.0/include\")" >> CMakeLists.txt
-      echo "include_directories(\"${glib.dev}/include/glib-2.0\")" >> CMakeLists.txt
-      echo "include_directories(\"${ncurses.dev}/include\")" >> CMakeLists.txt
-      echo "include_directories(\"${libvterm-neovim}/include\")" >> CMakeLists.txt
-    '';
-
-    installPhase = ''
-      mkdir -p $out
-      cp ../vterm-module.so $out
-      cp ../vterm.el $out
-    '';
+  src = fetchurl {
+    url = "https://bitbucket.org/mituharu/emacs-mac/get/${name}.tar.gz";
+    sha256 = "967d5642ca47ae3de2626f0fc7163424e36925642827e151c3906179020dd90e";
   };
 
-  emacs-mac = (emacs.override {
-    srcRepo = true;
-    nativeComp = true;
-    withXwidgets = true;
-  }).overrideAttrs (drv: {
-    version = emacsVersion;
-    src = fetchFromGitHub {
-      owner = "emacs-mirror";
-      repo = "emacs";
-      rev = "03e6a295d5c46151361845afbf5c8bcae915c89f";
-      sha256 = "UwESuk8hDULYnrpinouzWw1R3C+drpYLMp4rXcvd4LA=";
-    };
+  enableParallelBuilding = true;
 
-    buildInputs = drv.buildInputs ++ [ darwin.apple_sdk.frameworks.WebKit ];
+  nativeBuildInputs = [ pkg-config makeWrapper autoreconfHook texinfo ];
 
-    patches = [ ./patches/fix-window-role.patch ./patches/no-titlebar.patch ];
+  buildInputs = [ ncurses libxml2 gnutls gettext jansson libgccjit sigtool
+    AppKit Carbon Cocoa IOKit OSAKit Quartz QuartzCore WebKit
+    ImageCaptureCore GSS ImageIO   # may be optional
+  ];
 
-    postPatch = drv.postPatch + ''
-      substituteInPlace lisp/loadup.el \
-      --replace '(emacs-repository-get-branch)' '"${emacsBranch}"'
-    '';
+  patches = [
+    ./patches/multi-tty-27.diff
+  ];
 
-    postInstall = drv.postInstall + ''
-      cp ${emacs-vterm}/vterm.el $out/share/emacs/site-lisp/vterm.el
-      cp ${emacs-vterm}/vterm-module.so $out/share/emacs/site-lisp/vterm-module.so
-    '';
+  postPatch = lib.concatStringsSep "\n" [
+    "cp nextstep/Cocoa/Emacs.base/Contents/Resources/Emacs.icns mac/Emacs.app/Contents/Resources/Emacs.icns"
 
-    CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=110203 -g -O3";
-  });
-in emacs-mac
+    # Add the name of the wrapped gvfsd
+    # This used to be carried as a patch but it often got out of sync with upstream
+    # and was hard to maintain for emacs-overlay.
+    (lib.concatStrings (map (fn: ''
+      sed -i 's#(${fn} "gvfs-fuse-daemon")#(${fn} "gvfs-fuse-daemon") (${fn} ".gvfsd-fuse-wrapped")#' lisp/net/tramp-gvfs.el
+    '') [
+      "tramp-compat-process-running-p"
+      "tramp-process-running-p"
+    ]))
+
+    # Reduce closure size by cleaning the environment of the emacs dumper
+    ''
+      substituteInPlace src/Makefile.in \
+        --replace 'RUN_TEMACS = ./temacs' 'RUN_TEMACS = env -i ./temacs'
+    ''
+
+    ''
+    substituteInPlace lisp/international/mule-cmds.el \
+      --replace /usr/share/locale ${gettext}/share/locale
+    for makefile_in in $(find . -name Makefile.in -print); do
+      substituteInPlace $makefile_in --replace /bin/pwd pwd
+    done
+    ''
+
+    # Make native compilation work both inside and outside of nix build
+    (let
+      backendPath = (lib.concatStringsSep " "
+        (builtins.map (x: ''\"-B${x}\"'') [
+          # Paths necessary so the JIT compiler finds its libraries:
+          "${lib.getLib libgccjit}/lib"
+          "${lib.getLib libgccjit}/lib/gcc"
+          "${lib.getLib stdenv.cc.libc}/lib"
+
+          # Executable paths necessary for compilation (ld, as):
+          "${lib.getBin stdenv.cc.cc}/bin"
+          "${lib.getBin stdenv.cc.bintools}/bin"
+          "${lib.getBin stdenv.cc.bintools.bintools}/bin"
+        ]));
+    in ''
+      substituteInPlace lisp/emacs-lisp/comp.el --replace \
+        "(defcustom native-comp-driver-options nil" \
+        "(defcustom native-comp-driver-options '(${backendPath})"
+    '')
+    ""
+  ];
+
+  configureFlags = [
+    "--disable-build-details" # for a (more) reproducible build
+    "--with-xml2=yes"
+    "--with-gnutls=yes"
+    "--with-mac"
+    "--with-modules"
+    "--with-native-compilation"
+    "--enable-mac-app=$$out/Applications"
+  ];
+
+  installTargets = [ "tags" "install" ];
+
+  # CFLAGS = "-O3";
+  # LDFLAGS = "-O3 -L${ncurses.out}/lib";
+
+  postInstall = ''
+    mkdir -p $out/share/emacs/site-lisp
+    cp ${./site-start.el} $out/share/emacs/site-lisp/site-start.el
+
+    $out/bin/emacs --batch -f batch-byte-compile $out/share/emacs/site-lisp/site-start.el
+
+    siteVersionDir=`ls $out/share/emacs | grep -v site-lisp | head -n 1`
+
+    rm -r $out/share/emacs/$siteVersionDir/site-lisp
+
+    # native comp with mac
+    ln -snf $out/lib/emacs/*/native-lisp $out/Applications/Emacs.app/Contents/native-lisp
+
+    echo "Generating native-compiled trampolines..."
+    # precompile trampolines in parallel, but avoid spawning one process per trampoline.
+    # 1000 is a rough lower bound on the number of trampolines compiled.
+    $out/bin/emacs --batch --eval "(mapatoms (lambda (s) \
+      (when (subr-primitive-p (symbol-function s)) (print s))))" \
+      | xargs -n $((1000/NIX_BUILD_CORES + 1)) -P $NIX_BUILD_CORES \
+        $out/bin/emacs --batch -l comp --eval "(while argv \
+          (comp-trampoline-compile (intern (pop argv))))"
+    mkdir -p $out/share/emacs/native-lisp
+    $out/bin/emacs --batch \
+      --eval "(add-to-list 'native-comp-eln-load-path \"$out/share/emacs/native-lisp\")" \
+      -f batch-native-compile $out/share/emacs/site-lisp/site-start.el
+  '';
+
+  # postInstall = ''
+  #   mkdir -p $out/share/emacs/site-lisp/
+  #   cp ${./site-start.el} $out/share/emacs/site-lisp/site-start.el
+
+  #   ln -snf $out/lib/emacs/*/native-lisp $out/Applications/Emacs.app/Contents/native-lisp
+  #   mkdir -p $out/share/emacs/native-lisp
+  #   $out/bin/emacs --batch \
+  #     --eval "(add-to-list 'native-comp-eln-load-path \"$out/share/emacs/native-lisp\")" \
+  #     -f batch-native-compile $out/share/emacs/site-lisp/site-start.el
+  # '';
+
+  doCheck = false;
+
+  meta = {
+    description = "The extensible, customizable text editor";
+    homepage    = "https://www.gnu.org/software/emacs/";
+    license     = lib.licenses.gpl3Plus;
+    platforms   = lib.platforms.darwin;
+  };
+}

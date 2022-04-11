@@ -1,38 +1,5 @@
 {
   "nodes": {
-    "emacs-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1648662541,
-        "narHash": "sha256-UwESuk8hDULYnrpinouzWw1R3C+drpYLMp4rXcvd4LA=",
-        "owner": "emacs-mirror",
-        "repo": "emacs",
-        "rev": "03e6a295d5c46151361845afbf5c8bcae915c89f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacs-mirror",
-        "ref": "emacs-28",
-        "repo": "emacs",
-        "type": "github"
-      }
-    },
-    "emacs-vterm-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1640506671,
-        "narHash": "sha256-uSzIDmRNk7u5VtCXYu+JVN7Gzkc65axCiK0Jq0X6MWQ=",
-        "owner": "akermu",
-        "repo": "emacs-libvterm",
-        "rev": "a940dd2ee8a82684860e320c0f6d5e15d31d916f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "akermu",
-        "repo": "emacs-libvterm",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "locked": {
         "lastModified": 1648297722,
@@ -65,8 +32,6 @@
     },
     "root": {
       "inputs": {
-        "emacs-src": "emacs-src",
-        "emacs-vterm-src": "emacs-vterm-src",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       }
