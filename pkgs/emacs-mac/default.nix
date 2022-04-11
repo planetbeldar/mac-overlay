@@ -1,21 +1,6 @@
-{ stdenv
-, lib
-, cmake
-, libtool
-, glib
-, ncurses
-, fetchurl
-, pkg-config
-, autoreconfHook
-, texinfo
-, makeWrapper
-, libxml2
-, gnutls
-, gettext
-, jansson
-, libgccjit
-, darwin
-}:
+{ stdenv , lib , cmake , libtool , glib , ncurses , fetchurl
+, pkg-config , autoreconfHook , texinfo , makeWrapper , libxml2 , gnutls
+, gettext , jansson , libgccjit , darwin }:
 let
   pname = "emacs";
   version = "28.1";
@@ -32,7 +17,7 @@ in stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://bitbucket.org/mituharu/emacs-mac/get/${name}.tar.gz";
-    sha256 = "967d5642ca47ae3de2626f0fc7163424e36925642827e151c3906179020dd90e";
+    sha256 = "ln1WQspHrj3iYm8PxxY0JONpJWQoJ+FRw5BheQIN2Q4=";
   };
 
   enableParallelBuilding = true;
@@ -95,7 +80,10 @@ in stdenv.mkDerivation {
         "(defcustom native-comp-driver-options nil" \
         "(defcustom native-comp-driver-options '(${backendPath})"
     '')
-    ""
+    ''
+      substituteInPlace lisp/loadup.el \
+    	--replace '(emacs-repository-get-branch)' '"master"'
+    ''
   ];
 
   configureFlags = [
@@ -108,8 +96,7 @@ in stdenv.mkDerivation {
     "--enable-mac-app=$$out/Applications"
   ];
 
-  installTargets = [ "tags" "install" ];
-
+  # installTargets = [ "tags" "install" ];
   # CFLAGS = "-O3";
   # LDFLAGS = "-O3 -L${ncurses.out}/lib";
 
@@ -139,6 +126,10 @@ in stdenv.mkDerivation {
       --eval "(add-to-list 'native-comp-eln-load-path \"$out/share/emacs/native-lisp\")" \
       -f batch-native-compile $out/share/emacs/site-lisp/site-start.el
   '';
+
+  passthru.updateScript = ./update.sh;
+
+  dontCheck = true;
 
   meta = {
     description = "The extensible, customizable text editor";
