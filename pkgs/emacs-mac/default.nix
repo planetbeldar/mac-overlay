@@ -1,6 +1,6 @@
-{ stdenv , lib , cmake , libtool , glib , ncurses , fetchurl
-, pkg-config , autoreconfHook , texinfo , makeWrapper , libxml2 , gnutls
-, gettext , jansson , libgccjit , darwin }:
+{ stdenv, lib, cmake, libtool, glib, ncurses, fetchurl
+, pkg-config, autoreconfHook, texinfo, makeWrapper, libxml2, gnutls
+, gettext, jansson, libgccjit, gcc, darwin }:
 let
   pname = "emacs";
   version = "28.1";
@@ -36,16 +36,6 @@ in stdenv.mkDerivation {
 
   postPatch = lib.concatStringsSep "\n" [
     "cp nextstep/Cocoa/Emacs.base/Contents/Resources/Emacs.icns mac/Emacs.app/Contents/Resources/Emacs.icns"
-
-    # Add the name of the wrapped gvfsd
-    # This used to be carried as a patch but it often got out of sync with upstream
-    # and was hard to maintain for emacs-overlay.
-    (lib.concatStrings (map (fn: ''
-      sed -i 's#(${fn} "gvfs-fuse-daemon")#(${fn} "gvfs-fuse-daemon") (${fn} ".gvfsd-fuse-wrapped")#' lisp/net/tramp-gvfs.el
-    '') [
-      "tramp-compat-process-running-p"
-      "tramp-process-running-p"
-    ]))
 
     # Reduce closure size by cleaning the environment of the emacs dumper
     ''
@@ -87,9 +77,9 @@ in stdenv.mkDerivation {
   ];
 
   configureFlags = [
-    "--disable-build-details" # for a (more) reproducible build
-    "--with-xml2=yes"
-    "--with-gnutls=yes"
+    # "--disable-build-details" # for a (more) reproducible build
+    "--with-xml2"
+    "--with-gnutls"
     "--with-mac"
     "--with-modules"
     "--with-native-compilation"
@@ -99,6 +89,7 @@ in stdenv.mkDerivation {
   # installTargets = [ "tags" "install" ];
   # CFLAGS = "-O3";
   # LDFLAGS = "-O3 -L${ncurses.out}/lib";
+  CFLAGS = "-O0 -g3";
 
   postInstall = ''
     mkdir -p $out/share/emacs/site-lisp
