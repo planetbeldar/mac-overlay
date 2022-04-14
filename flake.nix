@@ -32,8 +32,9 @@
       overlays = mapAttrs (packageName: _: (mkOverlay { ${packageName} = "directory"; })) packageDirs;
       packages = system:
         mapAttrs (packageName: _: mkDerivation system packageName) packageDirs;
+      modules = mapAttrs (moduleName: _: import (./modules/services + "/${moduleName}")) (readDir ./modules/services);
     in {
-      inherit overlay overlays;
+      inherit overlay overlays modules;
     } // eachSystem [ system.x86_64-darwin system.aarch64-darwin ]
     (system: { packages = packages system; });
 }

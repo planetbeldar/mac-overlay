@@ -6,7 +6,6 @@ let
   pname = "kmonad";
   version = "0.4.1";
 
-  extraIncludeDirs = "c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/include/pqrs/karabiner/driverkit:c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/src/Client/vendor/include";
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   # This package requires a few manual steps in MacOS
   # 1. enable input monitoring for launchctl (assuming you start kmonad via launchd) and kmonad (system settings)
@@ -22,15 +21,10 @@ in stdenv.mkDerivation {
     sha256 = "vnnUjz9av9bvOAkHRIuXYSs4Gqnyj+dEhrO1qADwy0M=";
   };
 
-  buildInputs = [
-    stack
-    libiconv
-    git
-  ] ++ lib.optional stdenv.isDarwin [
+  nativeBuildInputs = [ xar gzip cpio stack libiconv git ];
+
+  buildInputs = lib.optional stdenv.isDarwin [
     IOKit
-    xar
-    gzip
-    cpio
   ];
 
   postUnpack = lib.optionalString stdenv.isDarwin ''
@@ -49,7 +43,7 @@ in stdenv.mkDerivation {
 
     stack build \
       --flag kmonad:dext \
-      --extra-include-dirs=${extraIncludeDirs} \
+      --extra-include-dirs=c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/include/pqrs/karabiner/driverkit:c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/src/Client/vendor/include \
       --local-bin-path ./bin \
       --copy-bins
   '' + ''
@@ -62,7 +56,7 @@ in stdenv.mkDerivation {
     mkdir -p $out/bin
     cp bin/${pname} $out/bin
   '' + lib.optionalString stdenv.isDarwin ''
-    cp -R ${karabinerDir}/{Applications,Library} $out/bin
+    cp -R ${karabinerDir}/{Applications,Library} $out
   '' + ''
     runHook postInstall
   '';
