@@ -31,8 +31,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
-
     launchd.daemons.kmonad = {
       serviceConfig.ProgramArguments = [
         "${cfg.package}/bin/kmonad"
@@ -40,8 +38,8 @@ in {
       ];
 
       serviceConfig.RunAtLoad = true;
-      serviceConfig.StandardOutPath = "/tmp/kmonad.stdout";
-      serviceConfig.StandardErrorPath = "/tmp/kmonad.stderr";
+      serviceConfig.StandardOutPath = "/var/log/kmonad.out";
+      serviceConfig.StandardErrorPath = "/var/log/kmonad.out";
       serviceConfig.EnvironmentVariables = lib.genAttrs cfg.environmentVariables builtins.getEnv;
       # serviceConfig.EnvironmentVariables = builtins.foldl' (res: x: res // { x = builtins.getEnv x; }) {} cfg.environmentVariables;
     };

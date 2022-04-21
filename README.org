@@ -14,6 +14,9 @@
   - [ ] KiCad
   - [X] MacFUSE
   - [X] pgAdmin4
+  - [ ] KMonad
+    The included .Karabiner driver kit needs to run from /Applications
+    LaunchDaemon service module for running kmonad (as root)
 
 * Considerations
 - Flakes for each package (with overlay, defaultPackage and packages)
