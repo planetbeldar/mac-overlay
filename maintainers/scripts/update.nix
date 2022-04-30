@@ -92,21 +92,23 @@ let
     to run update scripts for all packages
   '';
 
-  runUpdateScript = package: ''
+  runUpdateScript = package:
+    let logFile = (builtins.parseDrvName package.name).name + ".log";
+    in ''
     echo -ne " - ${package.name}: UPDATING ..."\\r
-    ${package.updateScript} | tee ${(builtins.parseDrvName package.name).name}.log
+    ${package.updateScript} &> ${logFile}
     CODE=$?
     if [ "$CODE" != "0" ]; then
       echo " - ${package.name}: ERROR       "
       echo ""
       echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
       echo ""
-      cat ${(builtins.parseDrvName package.name).name}.log
+      cat ${logFile}
       echo ""
       echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
       exit $CODE
     else
-      rm ${(builtins.parseDrvName package.name).name}.log
+      rm ${logFile}
     fi
     echo " - ${package.name}: DONE.       "
   '';

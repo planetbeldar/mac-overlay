@@ -15,9 +15,15 @@ trap "rm -fr $temp_dir" EXIT
 curl $(url) --output Spotify.dmg
 undmg Spotify.dmg
 version=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleVersion']" -v "following-sibling::string[1]" ./Spotify.app/Contents/Info.plist)
-
 popd
-echo Using version "$version"
+
+currentVersion=$(nix-instantiate --eval -E "with import ./.; spotify-mac.version" | tr -d '"')
+if [[ "$version" == "$currentVersion" ]]; then
+  echo "spotify-mac is up to date: $currentVersion"
+  exit 0
+fi
+
+echo "Using version $version"
 
 platforms=( \
   "x86_64-darwin   " \
