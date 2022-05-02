@@ -10,6 +10,8 @@ in stdenv.mkDmgDerivation {
     sha256 = "39ccc32418c59334fc893d863427697f220f3f9ea8da04450cd65d90107db085";
   };
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     homepage = "https://www.pgadmin.org";
     description = "Administration and development platform for PostgreSQL";
