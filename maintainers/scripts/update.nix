@@ -40,30 +40,36 @@ let
         else
           builtins.getAttr maintainer' pkgs.lib.maintainers;
     in
-      packagesWith (name: pkg: builtins.hasAttr "updateScript" pkg &&
-                                 (if builtins.hasAttr "maintainers" pkg.meta
-                                   then (if builtins.isList pkg.meta.maintainers
-                                           then builtins.elem maintainer pkg.meta.maintainers
-                                           else maintainer == pkg.meta.maintainers
-                                        )
-                                   else false
-                                 )
-                   )
-                   (name: pkg: pkg)
-                   pkgs-mac;
+      packagesWith
+        (name: pkg: builtins.hasAttr "updateScript" pkg &&
+          (if builtins.hasAttr "maintainers" pkg.meta
+            then (if builtins.isList pkg.meta.maintainers
+                    then builtins.elem maintainer pkg.meta.maintainers
+                    else maintainer == pkg.meta.maintainers
+                )
+            else false))
+        (name: pkg: {
+          pathName = name;
+          package = pkg;
+        }) pkgs-mac;
 
-  packagesWithUpdateScript = packagesWith (name: pkg: builtins.hasAttr "updateScript" pkg) (name: pkg: pkg) pkgs-mac;
+  packagesWithUpdateScript = packagesWith
+    (name: pkg: builtins.hasAttr "updateScript" pkg)
+    (name: pkg: {
+      pathName = name;
+      package = pkg;
+    }) pkgs-mac;
 
-  packageByName = name:
+  packageByName = pathName:
     let
-        package = pkgs.lib.attrByPath (pkgs.lib.splitString "." name) null pkgs-mac;
+        package = pkgs.lib.attrByPath (pkgs.lib.splitString "." pathName) null pkgs-mac;
     in
       if package == null then
-        builtins.throw "Package with an attribute name `${name}` does not exists."
+        builtins.throw "Package with an attribute name `${pathName}` does not exists."
       else if ! builtins.hasAttr "updateScript" package then
-        builtins.throw "Package with an attribute name `${name}` does have an `passthru.updateScript` defined."
+        builtins.throw "Package with an attribute name `${pathName}` does have an `passthru.updateScript` defined."
       else
-        package;
+        { inherit pathName package; };
 
   packages =
     if package != null then
@@ -92,26 +98,34 @@ let
     to run update scripts for all packages
   '';
 
-  runUpdateScript = package:
-    let logFile = (builtins.parseDrvName package.name).name + ".log";
+  runUpdateScript = { package, pathName }:
+    let
+      logFile = (builtins.parseDrvName package.name).name + ".log";
+      width = toString 40;
     in ''
-    echo -ne " - ${package.name}: UPDATING ..."\\r
-    ${package.updateScript} &> ${logFile}
-    CODE=$?
-    if [ "$CODE" != "0" ]; then
-      echo " - ${package.name}: ERROR       "
-      echo ""
-      echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
-      echo ""
-      cat ${logFile}
-      echo ""
-      echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
-      exit $CODE
-    else
-      rm ${logFile}
-    fi
-    echo " - ${package.name}: DONE.       "
-  '';
+      echo -ne " - ${package.name}: Updating ..."\\r
+      ${package.updateScript} &> ${logFile}
+      CODE=$?
+      if [ "$CODE" != "0" ]; then
+        echo " - ${package.name}: ERROR       "
+        echo ""
+        echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
+        echo ""
+        cat ${logFile}
+        echo ""
+        echo "--- SHOWING ERROR LOG FOR ${package.name} ----------------------"
+        exit $CODE
+      else
+        nameVersion=$(nix-instantiate --eval -E "with import ./.; ${pathName}.name" | tr -d '"')
+        if [[ $nameVersion == "${package.name}" ]]; then
+          printf "%-${width}s -> %-${width}s \n" " - ${package.name}" "Up to date    "
+        else
+          printf "%-${width}s -> %-${width}s \n" " - ${package.name}" "$nameVersion  "
+        fi
+
+        rm ${logFile}
+      fi
+    '';
 
 in pkgs.stdenv.mkDerivation {
   name = "mac-overlay-update-script";
@@ -129,10 +143,10 @@ in pkgs.stdenv.mkDerivation {
     unset shellHook
     echo ""
     echo "Going to be running update for following packages:"
-    echo "${builtins.concatStringsSep "\n" (map (x: " - ${x.name}") packages)}"
+    echo "${builtins.concatStringsSep "\n" (map (x: " - ${x.pathName}") packages)}"
     echo ""
     if [ "${dont_prompt_str}" = "no" ]; then
-      read -n1 -r -p "Press space to continue..." confirm
+      read -n1 -r -s -p "Press space to continue..." confirm
     else
       confirm=""
     fi
