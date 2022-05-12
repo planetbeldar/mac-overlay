@@ -1,11 +1,11 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "signal";
-  version = "5.41.0";
+  version = "5.42.0";
 
   sha512 = {
-    x64 = "3c2rsd80l090b5lrprrlm2g40cfllsjpdzvwwxcgy1q25knnl763xza2la18zvimb01ijgk62z027rrjql9ansfmg9fcn3lkfdbq448";
-    arm64 = "15gnpqxkkasgkpqsa3snac4nxz4ywcgqdhk59nc49c958kg53vzwvkinf2xd87292j4rr5jzyqi4w6v9p80fpacljgwmdkbk27l8id0";
+    x64 = "0blsa1yxxccv5v005xy0l2ryfris837i1nrw0j33q96zqycfnac6qc1y37xqfv9yy8wacrl71p98d19wvzsb17cldfi0cwb71zaq5kg";
+    arm64 = "3dmpvcxp4sjcp32fjqfdgki6rwf7cs7fd624kcmpxk3f142dbvm7qmfi67zccwz93arqlxmgcic2sjr8visfrbky5r1qkfw3k49xkzf";
   };
 
   hostSystem = stdenv.hostPlatform.system;
@@ -29,5 +29,6 @@ in stdenv.mkDmgDerivation {
     changelog = "https://github.com/signalapp/Signal-Desktop/releases/tag/v${version}";
     description = "Private, simple, and secure messenger";
     license = lib.licenses.agpl3Only;
+    platforms = [ "x86_64-darwin" "aarch64-darwin" ];
   };
 }

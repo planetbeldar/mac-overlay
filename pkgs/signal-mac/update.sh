@@ -9,7 +9,7 @@ version=$(yq '.version' <<< "$latest_release")
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
 if [[ "$version" == "$currentVersion" ]]; then
-  echo "$name is up to date: $currentVersion"
+  echo "$name is up to date: $version"
   exit 0
 fi
 
