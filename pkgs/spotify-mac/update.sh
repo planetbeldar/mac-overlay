@@ -19,7 +19,7 @@ popd
 
 currentVersion=$(nix-instantiate --eval -E "with import ./.; spotify-mac.version" | tr -d '"')
 if [[ "$version" == "$currentVersion" ]]; then
-  echo "spotify-mac is up to date: $currentVersion"
+  echo "spotify-mac is up to date: $version"
   exit 0
 fi
 
