@@ -4,7 +4,7 @@
 set -eou pipefail
 
 name="inkscape-mac"
-version="$(curl -sIL 'https://inkscape.org/release' | grep -oP '(?<=location: /release/inkscape-)\d+\.\d+\.\d+(?=\/)')"
+version="$(curl -sIL 'https://inkscape.org/release' | grep -oP '(?<=location: /release/inkscape-)\d+\.\d+(.\d+)?(?=\/)')"
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
 if [[ "$version" == "$currentVersion" ]]; then
