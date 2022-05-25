@@ -11,7 +11,7 @@ url () {
 }
 
 name="inkscape-mac"
-version="$(curl -sIL 'https://inkscape.org/release' | grep -oP '(?<=location: /release/inkscape-)\d+\.\d+(.\d+)?(?=\/)')"
+version="$(curl -sIL 'https://inkscape.org/release' | grep -oP '(?<=/release/inkscape-)\d+\.\d+(.\d+)?(?=\/)')"
 version=$([[ "$version" =~ ^[0-9]+\.[0-9]+$ ]] && echo "$version.0" || echo "$version") # add patch part to version
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
