@@ -8,7 +8,7 @@ let
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   # This package requires a few manual steps in MacOS
-  # 1. enable input monitoring for launchctl (assuming you start kmonad via launchd) and kmonad (system settings)
+  # 1. enable input monitoring for launchctl (assuming you start kmonad via the included launchd service module) and kmonad (system settings)
   # 2. script needs install and activate virtual hid device to root (is this really necessary?)
 in stdenv.mkDerivation {
   inherit pname version;
@@ -60,6 +60,8 @@ in stdenv.mkDerivation {
   '' + ''
     runHook postInstall
   '';
+
+  passthru.updateScript = ./update.sh;
 
   meta = {
     homepage = "https://github.com/kmonad/kmonad";
