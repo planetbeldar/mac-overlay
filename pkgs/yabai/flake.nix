@@ -1,5 +1,5 @@
 {
-  description = "Alacritty with a font smoothing patch";
+  description = "Yabai WM";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
