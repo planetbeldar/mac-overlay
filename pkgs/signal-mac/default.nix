@@ -1,11 +1,11 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "signal";
-  version = "5.44.1";
+  version = "5.45.1";
 
   sha512 = {
-    x64 = "3m57dkjf2zpim2hwc804vivf00dz368qi5ipklj9377jlh9s9afw4y8f4ahzzq0i76faq5xr1h13zfaypbj0qicp3kjfhpwbrhl0p32";
-    arm64 = "383vdam16h3l05kgw0shfjmax8ikkxzd8923npxp78fp7060qyfp7b2ajp1da89zi0mgmxyxpcgi9s9d3pj3j2i3i2q9pfn83lskl93";
+    x64 = "279ph0zfmqabwqkkc7vhjvid15c21gm4dxdsmh8fl4i12c94nrbv2gb5chgbldlfz8wg3wjvh54j9glq2ylpzz7p9ghy08dxcim35wx";
+    arm64 = "2aczhv19ljh5z9pva78iicchcbdfafkz84rqhrisj3sn7xys5v3i9ivvwgbbdswpnbgph5l9d58zryf2pnva4cgyr18wa36ydgswal2";
   };
 
   hostSystem = stdenv.hostPlatform.system;
