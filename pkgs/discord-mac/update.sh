@@ -8,11 +8,10 @@ version="$(curl -sI 'https://discord.com/api/download/stable?platform=osx' | gre
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
 if [[ "$version" == "$currentVersion" ]]; then
-  echo "$name is up to date: $currentVersion"
+  echo "$name is up to date: $version"
   exit 0
 fi
 
 echo "Using $version"
 
-
-update-source-version discord-mac "$version" --file=./pkgs/discord-mac/default.nix
+update-source-version "$name" "$version" --file=./pkgs/"$name"/default.nix
