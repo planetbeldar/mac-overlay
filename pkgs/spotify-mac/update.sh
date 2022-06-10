@@ -12,14 +12,15 @@ temp_dir=$(mktemp -d)
 pushd "$temp_dir"
 trap "rm -fr $temp_dir" EXIT
 
-curl $(url) --output Spotify.dmg
+curl "$(url)" --output Spotify.dmg
 undmg Spotify.dmg
 version=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleVersion']" -v "following-sibling::string[1]" ./Spotify.app/Contents/Info.plist)
 popd
 
-currentVersion=$(nix-instantiate --eval -E "with import ./.; spotify-mac.version" | tr -d '"')
+name="spotify-mac"
+currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 if [[ "$version" == "$currentVersion" ]]; then
-  echo "spotify-mac is up to date: $version"
+  echo "$name is up to date: $version"
   exit 0
 fi
 
@@ -36,6 +37,6 @@ for kv in "${platforms[@]}"; do
 
   sha512=$(nix-prefetch-url --type sha512 "$file_url")
 
-  update-source-version spotify-mac 0 "0000000000000000000000000000000000000000000000000000" --system="$nix_platform" --file=./pkgs/spotify-mac/default.nix
-  update-source-version spotify-mac "$version" "$sha512" --system="$nix_platform" --file=./pkgs/spotify-mac/default.nix
+  update-source-version "$name" 0 "0000000000000000000000000000000000000000000000000000" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
+  update-source-version "$name" "$version" "$sha512" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
 done
