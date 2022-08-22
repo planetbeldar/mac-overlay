@@ -9,7 +9,9 @@ trap "rm -fr $temp_dir" EXIT
 
 curl -L "https://www.sonos.com/en/redir/controller_software_mac2" -O
 undmg controller_software_mac2
-version=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleShortVersionString']" -v "following-sibling::string[1]" ./Sonos.app/Contents/Info.plist)
+shortBundleVersion=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleShortVersionString']" -v "following-sibling::string[1]" ./Sonos.app/Contents/Info.plist)
+bundleVersion=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleVersion']" -v "following-sibling::string[1]" ./Sonos.app/Contents/Info.plist)
+version="$shortBundleVersion,$bundleVersion"
 popd
 
 name="sonos-mac"
