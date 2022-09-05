@@ -35,7 +35,7 @@ for kv in "${platforms[@]}"; do
   platform=${kv##* }
   file_url=$(url "$platform")
 
-  sha512=$(nix-prefetch-url --type sha512 "$file_url")
+  sha512=$(nix hash to-sri --type sha512 "$(nix-prefetch-url --type sha512 "$file_url")")
 
   update-source-version "$name" 0 "0000000000000000000000000000000000000000000000000000" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
   update-source-version "$name" "$version" "$sha512" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
