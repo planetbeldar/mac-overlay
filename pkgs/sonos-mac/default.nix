@@ -1,15 +1,15 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "sonos";
-  version = "14.15";
+  version = "14.16";
 
 in stdenv.mkDmgDerivation {
   inherit pname version;
 
   src = fetchurl {
     # Random url segment and filename with internal/build version numbers
-    url = "https://update-software.sonos.com/software/bzxztwjn/Sonos_69.1-32152.dmg";
-    sha512 = "sha512-tiMcV1Gf0uhcWI9e3bdsXfDVawynSb6bywDzC3FV3m4yL0OWcU6y9YIlVccgx/t0KSc+RnO3ekGhwg0UhcqgXQ==";
+    url = "https://update-software.sonos.com/software/gjocspcx/Sonos_69.1-33120.dmg";
+    sha512 = "sha512-k9Gt3uxmQhVhB3aKdkSEhJW3tuVmghyfR/HnuWEvfhAYYFXlZYklgzCyvyP8gm4USDO0439TjgcxQL3JyHE2sA==";
   };
 
   passthru.updateScript = ./update.sh;
