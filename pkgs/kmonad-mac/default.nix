@@ -1,10 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, stack, libiconv, git, darwin, xar, gzip, cpio }:
+{ lib, stdenv, fetchFromGitHub, stack, libiconv, git, darwin, xar, gzip, cpio, llvm }:
 let
   inherit (lib) licenses platforms;
-  inherit (darwin.apple_sdk.frameworks) IOKit;
+  inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
 
   pname = "kmonad";
-  version = "2022-05-28";
+  version = "2022-11-27";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   # This package requires a few manual steps in MacOS
@@ -17,13 +17,14 @@ in stdenv.mkDerivation {
     owner = "kmonad";
     repo = "kmonad";
     fetchSubmodules = true;
-    rev = "58267c854ae6fd6c4ef84f45d176fc4c6cce7d0f";
-    sha256 = "znmFMXSby1uvANr2cm929RYX3pwu5/kEwwFYOV+aNyM=";
+    rev = "596ed91500d6908b3dc8b97023f431115900c470";
+    sha256 = "RebY7FSv4Fx4u/riieW1gnYITed6zuHlOniWV8oec/Y=";
   };
 
-  nativeBuildInputs = [ xar gzip cpio stack libiconv git ];
+  nativeBuildInputs = [ xar gzip cpio stack libiconv git llvm ];
 
   buildInputs = lib.optional stdenv.isDarwin [
+    CoreFoundation
     IOKit
   ];
 
