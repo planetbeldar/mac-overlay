@@ -31,10 +31,12 @@ in stdenv.mkDerivation {
   postUnpack = lib.optionalString stdenv.isDarwin ''
     mkdir $sourceRoot/${karabinerDir}
     pushd $sourceRoot/${karabinerDir}
-    xar -xf ../c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/dist/Karabiner-DriverKit-VirtualHIDDevice-1.15.0.pkg
+    xar -xf ../c_src/mac/${karabinerDir}/dist/Karabiner-DriverKit-VirtualHIDDevice-1.15.0.pkg
     cat Payload | gunzip -dc | cpio -i
     popd
   '';
+
+  patches = [ ./m2.patch ];
 
   buildPhase = ''
     runHook preBuild
