@@ -1,16 +1,16 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "spotify";
-  version = "1.2.7.1277.g2b3ce637-220";
+  version = "1.2.10.760.g52970952-1108";
 
   src = {
     x86_64-darwin = {
       url = "https://download.scdn.co/Spotify.dmg";
-      sha512 = "sha512-QjfBvpg4Elu+n8fI0XDtq+fMemdcNsTZI6Zv743AIcInm0bo4K9OXpRgzZ/FVOo3gklFqmzYaYkcVjlGU6vwWA==";
+      sha512 = "sha512-3ZXzneveuExml8U1cwoIZGcwjPcMEbILeU/6IbxZVIYpus//0zo7CS6v1H/krY0bpdynEsF82Job0ymGWI82LA==";
     };
     aarch64-darwin = {
       url = "https://download.scdn.co/SpotifyARM64.dmg";
-      sha512 = "sha512-dk7HKWggnjxg7se4qsU5VMw6gUUss5Or6avGkoh/VEwGqK93li7lHDJkRv9CvN1DYXB2g4JJrsMe70uGNrARng==";
+      sha512 = "sha512-Lx9B/bLLxE45bLlutBhUYqsV3JSEyAgG9vSvJPONL/xS9K3eEeku1CAtbzeTTT7sS7Zzawi/PqyyDoNnJewjrQ==";
     };
   }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in stdenv.mkDmgDerivation {
