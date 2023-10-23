@@ -24,7 +24,9 @@ in {
       };
 
       keymap = mkOption {
-        type = with types; either str path;
+        type = types.path;
+        defaultText = "~/.config/kmonad/keymap.kdb";
+        apply = toString;
         description = "Path to the <filename>keymap.kdb</filename> configuration.";
       };
     };
