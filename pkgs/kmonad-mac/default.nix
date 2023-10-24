@@ -4,7 +4,7 @@ let
   inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
 
   pname = "kmonad";
-  version = "2023-10-17";
+  version = "2023-10-25";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   # This package requires a few manual steps in MacOS
@@ -17,8 +17,8 @@ in stdenv.mkDerivation {
     owner = "kmonad";
     repo = "kmonad";
     fetchSubmodules = true;
-    rev = "a1aea16c7a3239c0a3d7522b09edb1d6988bae02";
-    sha256 = "tP2gxsRIQTeGja6585CTbpIzT2gftLY9oSY+2OQWqAM=";
+    rev = "1b2ec006259ddbe6cda30db8eb783e8177a9f12b";
+    sha256 = "naFOY/RXxBex9s3ce7gPEih1qeNGhEDdduB1wFUk3AQ=";
   };
 
   nativeBuildInputs = [ xar gzip cpio stack libiconv git llvm ];
@@ -31,17 +31,17 @@ in stdenv.mkDerivation {
   postUnpack = lib.optionalString stdenv.isDarwin ''
     mkdir $sourceRoot/${karabinerDir}
     pushd $sourceRoot/${karabinerDir}
-    xar -xf ../c_src/mac/${karabinerDir}/dist/Karabiner-DriverKit-VirtualHIDDevice-1.15.0.pkg
+    xar -xf ../c_src/mac/${karabinerDir}/dist/Karabiner-DriverKit-VirtualHIDDevice-2.1.0.pkg
     cat Payload | gunzip -dc | cpio -i
     popd
   '';
 
-  patches = [ ./m2.patch ];
+  # patches = [ ./m2.patch ];
 
   buildPhase = ''
     runHook preBuild
   '' + lib.optionalString stdenv.isDarwin ''
-    mkdir home
+    mkdir -p home
     export HOME=$PWD/home
 
     stack build \
