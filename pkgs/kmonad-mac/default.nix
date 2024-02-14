@@ -4,7 +4,7 @@ let
   inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
 
   pname = "kmonad";
-  version = "2024-01-15";
+  version = "2024-02-11";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   # This package requires a few manual steps in MacOS
@@ -17,8 +17,8 @@ in stdenv.mkDerivation {
     owner = "kmonad";
     repo = "kmonad";
     fetchSubmodules = true;
-    rev = "eea2585fbb3e36f4211b8e2bf0da5d42ec35050f";
-    sha256 = "QKbW8eS3+vKHj7yfaR4/1l445AuPcBXhq29bezT4zYs=";
+    rev = "70a5e97518c87ff52be4b403d774e88c5c61e3c1";
+    sha256 = "oyq3hCFqQb5Yi28PCW5k1MJnSuGfdyqOqXYH2mcPK/8=";
   };
 
   nativeBuildInputs = [ xar gzip cpio stack libiconv git llvm ];
