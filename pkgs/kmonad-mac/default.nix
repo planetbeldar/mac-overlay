@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, stack, libiconv, git, darwin, xar, gzip, cpio, llvm }:
+{ lib, stdenv, fetchFromGitHub, writeScriptBin, stack, libiconv, git, darwin, xar, gzip, cpio, llvm }:
 let
   inherit (lib) licenses platforms;
   inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
@@ -7,6 +7,9 @@ let
   version = "2024-02-11";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
+  # make /usr/bin/security available for stack on darwin
+  security = writeScriptBin "security" ''exec /usr/bin/security "$@"'';
+
   # This package requires a few manual steps in MacOS
   # 1. enable input monitoring for launchctl (assuming you start kmonad via the included launchd service module) and kmonad (system settings)
   # 2. script needs install and activate virtual hid device to root (is this really necessary?)
@@ -26,6 +29,7 @@ in stdenv.mkDerivation {
   buildInputs = lib.optional stdenv.isDarwin [
     CoreFoundation
     IOKit
+    security
   ];
 
   postUnpack = lib.optionalString stdenv.isDarwin ''
@@ -42,7 +46,7 @@ in stdenv.mkDerivation {
     mkdir -p home
     export HOME=$PWD/home
 
-    stack build \
+    ${stack}/bin/stack build \
       --flag kmonad:dext \
       --extra-include-dirs=c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/include/pqrs/karabiner/driverkit:c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/src/Client/vendor/include \
       --local-bin-path ./bin \
