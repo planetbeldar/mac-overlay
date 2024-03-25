@@ -3,18 +3,23 @@ let
   inherit (lib) licenses;
 
   pname = "qmk-toolbox";
-  version = "0.2.2";
+  version = "0.3.1";
+  appName = "QMK Toolbox.app";
 in stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchzip {
     url = "https://github.com/qmk/qmk_toolbox/releases/download/${version}/QMK.Toolbox.app.zip";
-    sha256 = "+kIX6qQbzxcfrxAvo6TPsum56T9ym9iQwpDxbMzvDJM=";
+    sha256 = "p5m5OZZdizUXDmqeACffpkSa7wUY6dHipbmyFitBvwk=";
   };
 
   installPhase = ''
-    mkdir -p $out/Applications/QMK\ Toolbox.app
-    cp -R . $out/Applications/QMK\ Toolbox.app
+    runHook preInstall
+
+    mkdir -p $out/Applications/${appName}
+    cp -R . $out/Applications/${appName}
+
+    runHook postInstall
   '';
 
   passthru.updateScript = ./update.sh;

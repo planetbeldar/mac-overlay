@@ -4,7 +4,7 @@
 set -eou pipefail
 
 name="qmk-toolbox"
-version=$(curl https://api.github.com/repos/qmk/qmk_toolbox/releases/latest | jq -r '.tag_name' | sed -e 's/^v//')
+version=$(curl -sL https://api.github.com/repos/qmk/qmk_toolbox/releases/latest | jq -r '.tag_name' | sed -e 's/^v//')
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
 if [[ "$version" == "$currentVersion" ]]; then
@@ -12,6 +12,6 @@ if [[ "$version" == "$currentVersion" ]]; then
   exit 0
 fi
 
-echo Using version "$version"
+echo "Using version $version"
 
-update-source-version qmk-toolbox "$version" --file=./pkgs/qmk-toolbox/default.nix
+update-source-version "$name" "$version" --file=./pkgs/"$name"/default.nix
