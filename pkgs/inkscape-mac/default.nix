@@ -1,17 +1,17 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "inkscape";
-  version = "1.2.2";
+  version = "1.3.2";
 
   url = arch: "https://media.inkscape.org/dl/resources/file/Inkscape-${version}_${arch}.dmg";
   src = {
     x86_64-darwin = {
       url = url "x86_64";
-      sha512 = "31bhhh9l2m3nv5y8i1r1lxz8hpbbvy0dxf7iwzsw5l22gzvag6gl8zc9n15crzrxivp07qf0vwagkzsgjv7br833xk980z5m0x3bypm";
+      sha512 = "23n7b6gmk4fjw4cgsid3v0kss4vxhag44g105kmjy1jvjh39idjyqx40kj9b6lqgb9d362bili75fpwiv8d82z7h797krixrvbfjwxg";
     };
     aarch64-darwin = {
       url = url "arm64";
-      sha512 = "079r34arffldlz7j6rajff3zaljipl6nd2y8c5dn7ls3d3wnp09yn06nr8nq2pcwdaav2vsy3kgayzphy2n790kxpin2rh6laj2ad0b";
+      sha512 = "2rppf6q0zi0q4lz5r6hwn5ikf0ijxpm7lwrv54f6xmvrbmk3y14ic177zhrx16xs88gdl9a2rz42w59g4mi87mqw58z2q4b51cra80b";
     };
   }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in stdenv.mkDmgDerivation {
