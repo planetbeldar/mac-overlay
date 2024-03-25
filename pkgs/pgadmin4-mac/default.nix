@@ -1,13 +1,13 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "pgadmin4";
-  version = "7.6";
+  version = "8.4";
 in stdenv.mkDmgDerivation {
   inherit pname version;
 
   src = fetchurl {
     url = "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${version}/macos/pgadmin4-${version}-x86_64.dmg";
-    sha256 = "m3/ZWPDhY8MjdopeNwNMRfgpaPWxmuGplq79Pne/A0I=";
+    sha256 = "0G5SsGYcuugYJBH548VW1obuQmhRczyb2wGTCQmdtIk=";
   };
 
   passthru.updateScript = ./update.sh;
