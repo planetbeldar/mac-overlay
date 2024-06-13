@@ -4,18 +4,16 @@ let
   inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
 
   name = "kmonad";
-  version = "2024-02-11";
+  version = "2024-06-07";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   src = fetchFromGitHub {
     owner = "kmonad";
     repo = "kmonad";
-    rev = "70a5e97518c87ff52be4b403d774e88c5c61e3c1";
-    sha256 = "oyq3hCFqQb5Yi28PCW5k1MJnSuGfdyqOqXYH2mcPK/8=";
+    rev = "235b42610758355a664c153999c1ff03b4d918e6";
+    sha256 = "VcGu0i6/2PVFHmyrnLivxEARX2bcPLxgkSFoUYjx3YY=";
     fetchSubmodules = true;
   };
-  # make /usr/bin/security available for stack on darwin
-  # security = writeScriptBin "security" ''exec /usr/bin/security "$@"'';
 
   # This package requires a few manual steps in MacOS
   # 1. enable input monitoring for launchctl (assuming you start kmonad via the included launchd service module) and kmonad (system settings)
