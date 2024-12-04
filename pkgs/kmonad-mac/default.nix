@@ -4,14 +4,14 @@ let
   inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
 
   name = "kmonad";
-  version = "2024-06-07";
+  version = "2024-11-05";
 
   karabinerDir = "Karabiner-DriverKit-VirtualHIDDevice";
   src = fetchFromGitHub {
     owner = "kmonad";
     repo = "kmonad";
-    rev = "235b42610758355a664c153999c1ff03b4d918e6";
-    sha256 = "VcGu0i6/2PVFHmyrnLivxEARX2bcPLxgkSFoUYjx3YY=";
+    rev = "606c488862df6c3be1e4e670f6e1e06008c84732";
+    sha256 = "m9agq+UNNwAovZj+WS5/1Yc1xoExG4A3SqmVP/e0r9Q=";
     fetchSubmodules = true;
   };
 
