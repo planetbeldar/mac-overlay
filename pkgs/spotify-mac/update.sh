@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p curl mktemp undmg xmlstarlet common-updater-scripts
+#!nix-shell -i bash -p curl mktemp undmg common-updater-scripts
 
 set -eou pipefail
 
@@ -14,7 +14,7 @@ trap "rm -fr $temp_dir" EXIT
 
 curl "$(url)" --output Spotify.dmg
 undmg Spotify.dmg
-version=$(xmlstarlet sel --net -t -m "/plist/dict/key[.='CFBundleVersion']" -v "following-sibling::string[1]" ./Spotify.app/Contents/Info.plist)
+version=$(plutil -extract CFBundleVersion raw ./Spotify.app/Contents/Info.plist)
 popd
 
 name="spotify-mac"
