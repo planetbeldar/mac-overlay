@@ -3,7 +3,7 @@
 
 tags=$(curl -sSL 'https://ftp.postgresql.org/pub/pgadmin/pgadmin4')
 versions=$(sed -rne 's,^<a href="v([0-9]+\.[0-9]+)/">.*,\1,p' <<< "$tags")
-version=$(echo "$versions" | sort | tail -n 1)
+version=$(echo "$versions" | sort -V | tail -n 1)
 
 name="pgadmin4-mac"
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
