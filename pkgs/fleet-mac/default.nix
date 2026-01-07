@@ -1,11 +1,11 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "fleet";
-  version = "1.36.103";
+  version = "1.48.261";
 
   sha256 = {
-    x64 = "4ca3b03f046ebe7c8c41be9b38facc913bb4cdcf2cbd1a3e41042ab64f4bc305";
-    aarch64 = "fa218751dd52ee05926d95eb0568b706a7c94ee99af2ab2357698c7fe3df4ecc";
+    x64 = "5a0fddbdbd28f108ecaee818e3859028cf215a7aa001c04163fe3800fb6da1b6";
+    aarch64 = "09e0d68820830e3ef43161f1d3d39a5ff3075ae90b0bfaa48b9b33a6bcf5d4ae";
   };
 
   hostSystem = stdenv.hostPlatform.system;
