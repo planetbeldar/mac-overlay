@@ -15,15 +15,4 @@ fi
 
 echo "Using version $version"
 
-platforms=( \
-  "x86_64-darwin  x64" \
-  "aarch64-darwin arm64" \
-)
-for kv in "${platforms[@]}"; do
-  nix_platform=${kv%% *}
-  platform=${kv##* }
-
-  sha512=$(nix-prefetch-url --type sha512 "https://updates.signal.org/desktop/signal-desktop-mac-$platform-$version.dmg")
-  update-source-version "$name" 0 "0000000000000000000000000000000000000000000000000000" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
-  update-source-version "$name" "$version" "$sha512" --system="$nix_platform" --file=./pkgs/"$name"/default.nix
-done
+update-source-version "$name" "$version" --file=./pkgs/"$name"/default.nix
