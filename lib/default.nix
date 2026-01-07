@@ -48,7 +48,8 @@ let
   # (final -> prev -> { name: derivation })
   mkOverlay = derivationDirs:
     (final: prev:
-      let pkgs = mkPkgs prev.legacyPackages.${prev.system} prev.system;
+      let system = prev.stdenv.hostPlatform.system;
+        pkgs = mkPkgs prev.legacyPackages.${system} system;
       in with pkgs; lib.mapAttrs (n: v: (callPackage v { })));
 
   # mkOverlays = derivationDirs:
