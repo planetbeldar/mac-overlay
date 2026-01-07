@@ -1,13 +1,13 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "discord";
-  version = "0.0.307";
+  version = "0.0.371";
 in stdenv.mkDmgDerivation {
   inherit pname version;
 
   src = fetchurl {
     url = "https://dl.discordapp.net/apps/osx/${version}/Discord.dmg";
-    sha256 = "FBYxQhtwctMQ8ByOgAVncWh5297k1Vh95w/rWnZg9Fw=";
+    sha256 = "OjHYJNZlM/cOLM61qvoauzNl3f/GVPdJMsnM+kxc/38=";
   };
 
   passthru.updateScript = ./update.sh;

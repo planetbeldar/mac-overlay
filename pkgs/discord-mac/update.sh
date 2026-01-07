@@ -4,7 +4,7 @@
 set -eou pipefail
 
 name="discord-mac"
-version="$(curl -sI 'https://discord.com/api/download/stable?platform=osx' | grep -oP '(?<=location: https:\/\/dl\.discordapp\.net\/apps\/osx\/)\d+\.\d+\.\d+(?=\/Discord\.dmg)')"
+version="$(curl -sI -o /dev/null -w '%header{location}' 'https://discord.com/api/download/stable?platform=osx' | grep -oP '\d+\.\d+\.\d+')"
 currentVersion=$(nix-instantiate --eval -E "with import ./.; $name.version" | tr -d '"')
 
 if [[ "$version" == "$currentVersion" ]]; then
