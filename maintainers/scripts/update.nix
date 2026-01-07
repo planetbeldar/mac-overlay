@@ -41,7 +41,7 @@ let
           builtins.getAttr maintainer' pkgs.lib.maintainers;
     in
       packagesWith
-        (name: pkg: builtins.hasAttr "updateScript" pkg &&
+        (name: pkg: builtins.hasAttr "updateScript" pkg && builtins.isPath pkg.updateScript &&
           (if builtins.hasAttr "maintainers" pkg.meta
             then (if builtins.isList pkg.meta.maintainers
                     then builtins.elem maintainer pkg.meta.maintainers
@@ -54,7 +54,7 @@ let
         }) pkgs-mac;
 
   packagesWithUpdateScript = packagesWith
-    (name: pkg: builtins.hasAttr "updateScript" pkg)
+    (name: pkg: builtins.hasAttr "updateScript" pkg && builtins.isPath pkg.updateScript)
     (name: pkg: {
       pathName = name;
       package = pkg;
