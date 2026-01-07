@@ -1,13 +1,13 @@
 { lib, stdenv, fetchzip }:
 let
   pname = "yabai";
-  version = "7.1.1";
+  version = "7.1.16";
 in stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchzip {
-    url = "https://github.com/koekeishiya/yabai/releases/download/v${version}/yabai-v${version}.tar.gz";
-    sha256 = "LNOAT1vm6EEmcKdshMKjYWFfoRoRNbgZgjEpOTacWc8=";
+    url = "https://github.com/asmvik/yabai/releases/download/v${version}/yabai-v${version}.tar.gz";
+    sha256 = "rEO+qcat6heF3qrypJ02Ivd2n0cEmiC/cNUN53oia4w=";
   };
 
   installPhase = ''
