@@ -3,14 +3,14 @@ let
   inherit (lib) licenses;
 
   pname = "qmk-toolbox";
-  version = "0.3.1";
+  version = "0.3.3";
   appName = "QMK Toolbox.app";
 in stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchzip {
     url = "https://github.com/qmk/qmk_toolbox/releases/download/${version}/QMK.Toolbox.app.zip";
-    sha256 = "p5m5OZZdizUXDmqeACffpkSa7wUY6dHipbmyFitBvwk=";
+    sha256 = "0wxNd531dmSlgN/v0+VvjvnV7RmHN5lL4bALVy97Gqw=";
   };
 
   installPhase = ''
