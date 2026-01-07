@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, undmg, cpio, xar, fixDarwinDylibNames, DiskArbitration }:
+{ lib, stdenv, fetchurl, undmg, cpio, xar, fixDarwinDylibNames }:
 let
   pname = "macfuse";
   version = "4.2.4";
@@ -10,8 +10,7 @@ in stdenv.mkDerivation {
     sha256 = "82a2c30b3a7bf56aa2755c0c192fb50d9eecc3fe42505ab4e8679b50306188bd";
   };
 
-  nativeBuildInputs = [ undmg cpio xar fixDarwinDylibNames ];
-  propagatedBuildInputs = [ DiskArbitration ];
+  nativeBuildInputs = [ undmg cpio xar fixDarwinDylibNames];
 
   postUnpack = ''
     xar -xf 'Install macFUSE.pkg'
