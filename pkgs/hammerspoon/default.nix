@@ -1,14 +1,14 @@
 { lib, stdenv, fetchzip }:
 let
   pname = "hammerspoon";
-  version = "0.9.97";
-  appName = "Hammerspoon.app"
+  version = "1.1.0";
+  appName = "Hammerspoon.app";
 in stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchzip {
     url = "https://github.com/Hammerspoon/hammerspoon/releases/download/${version}/Hammerspoon-${version}.zip";
-    sha256 = "13cGdXjWeig0hUTdiCmiQdq3wcnbPOjnRRAA7hMn690=";
+    sha256 = "rfgG1xQk+uSrRPiOgMpJ9F6unmlhg6cfrTCHCal1NlE=";
   };
 
   installPhase = ''

@@ -19,7 +19,7 @@
         in pkgs.callPackage ./default.nix { };
     in {
       overlay = final: prev:
-        let hammerspoon = mkDerivation prev.system;
+        let hammerspoon = mkDerivation prev.stdenv.hostPlatform.system;
         in { inherit hammerspoon; };
     } // flake-utils.lib.eachSystem [ "x86_64-darwin" "aarch64-darwin" ]
     (system:
